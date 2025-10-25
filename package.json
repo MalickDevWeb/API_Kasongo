@@ -1,0 +1,69 @@
+{
+    "private": true,
+    "type": "module",
+  "scripts": {
+    "dev:all": "npm run development:key && npm run development:config && npm run development:cache && npm run development:route && npm run development:view && npm run development:migrations:all",
+    "prod:all": "npm run production:key && npm run production:config && npm run production:route && npm run production:view && npm run production:migrations:all",
+    
+    "docker:dev": "cross-env APP_ENV=development docker compose up --build",
+    "docker:prod": "cross-env APP_ENV=production docker compose up --build"
+  },
+  "development": {
+    "key": "docker compose --env-file .env.development exec app php artisan key:generate",
+    "config": "docker compose --env-file .env.development exec app php artisan config:clear",
+    "cache": "docker compose --env-file .env.development exec app php artisan cache:clear",
+    "route": "docker compose --env-file .env.development exec app php artisan route:clear",
+    "view": "docker compose --env-file .env.development exec app php artisan view:clear",
+    "tinker": "docker compose --env-file .env.development exec app php artisan tinker",
+    "migrations": {
+      "migrate": "docker compose --env-file .env.development exec app php artisan migrate",
+      "status": "docker compose --env-file .env.development exec app php artisan migrate:status",
+      "rollback": "docker compose --env-file .env.development exec app php artisan migrate:rollback",
+      "refresh": "docker compose --env-file .env.development exec app php artisan migrate:refresh",
+      "reset": "docker compose --env-file .env.development exec app php artisan migrate:reset",
+      "all": "npm run development:migrations:migrate && npm run development:migrations:status"
+    },
+    "make": {
+      "controller": "docker compose --env-file .env.development exec app php artisan make:controller",
+      "model": "docker compose --env-file .env.development exec app php artisan make:model",
+      "middleware": "docker compose --env-file .env.development exec app php artisan make:middleware",
+      "request": "docker compose --env-file .env.development exec app php artisan make:request",
+      "factory": "docker compose --env-file .env.development exec app php artisan make:factory",
+      "seeder": "docker compose --env-file .env.development exec app php artisan make:seeder",
+      "migration": "docker compose --env-file .env.development exec app php artisan make:migration"
+    },
+    "all": "npm run development:key && npm run development:config && npm run development:cache && npm run development:route && npm run development:view && npm run development:migrations:all"
+  },
+  "production": {
+    "key": "docker compose --env-file .env.production exec app php artisan key:generate",
+    "config": "docker compose --env-file .env.production exec app php artisan config:cache",
+    "cache": "docker compose --env-file .env.production exec app php artisan cache:clear",
+    "route": "docker compose --env-file .env.production exec app php artisan route:cache",
+    "view": "docker compose --env-file .env.production exec app php artisan view:cache",
+    "tinker": "docker compose --env-file .env.production exec app php artisan tinker",
+    "migrations": {
+      "migrate": "docker compose --env-file .env.production exec app php artisan migrate --force",
+      "status": "docker compose --env-file .env.production exec app php artisan migrate:status",
+      "rollback": "docker compose --env-file .env.production exec app php artisan migrate:rollback --force",
+      "refresh": "docker compose --env-file .env.production exec app php artisan migrate:refresh --force",
+      "reset": "docker compose --env-file .env.production exec app php artisan migrate:reset --force",
+      "all": "npm run production:migrations:migrate && npm run production:migrations:status"
+    },
+    "make": {
+      "controller": "docker compose --env-file .env.production exec app php artisan make:controller",
+      "model": "docker compose --env-file .env.production exec app php artisan make:model",
+      "middleware": "docker compose --env-file .env.production exec app php artisan make:middleware",
+      "request": "docker compose --env-file .env.production exec app php artisan make:request",
+      "factory": "docker compose --env-file .env.production exec app php artisan make:factory",
+      "seeder": "docker compose --env-file .env.production exec app php artisan make:seeder",
+      "migration": "docker compose --env-file .env.production exec app php artisan make:migration"
+    },
+    "all": "npm run production:key && npm run production:config && npm run production:cache && npm run production:route && npm run production:view && npm run production:migrations:all"
+  },
+    "devDependencies": {
+        "axios": "^1.6.4",
+        "cross-env": "^10.1.0",
+        "laravel-vite-plugin": "^1.0.0",
+        "vite": "^5.0.0"
+    }
+}

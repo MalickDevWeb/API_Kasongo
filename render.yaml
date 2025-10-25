@@ -1,0 +1,21 @@
+envVars:
+  - key: APP_ENV
+    value: production
+  - key: APP_KEY
+    generateValue: true
+  - key: APP_DEBUG
+    value: false
+  - key: APP_URL
+    value: https://papamalick.teuw
+  - key: DB_CONNECTION
+    value: pgsql
+  - key: DB_HOST
+    value: dpg-d3tj5jali9vc73be7ogg-a.oregon-postgres.render.com
+  - key: DB_PORT
+    value: 5432
+  - key: DB_DATABASE
+    value: posgres_sk25
+  - key: DB_USERNAME
+    value: posgres_sk25_user
+  - key: DB_PASSWORD
+    value: 5Fkn6nYpMFrHOHcZBDlxRBtrSelScvNM
