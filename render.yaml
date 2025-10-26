@@ -3,11 +3,21 @@ services:
     name: web
     env: docker
     dockerfilePath: ./Dockerfile.production
+    startCommand: |
+      php artisan config:clear
+      php artisan cache:clear
+      php artisan route:clear
+      php artisan view:clear
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+      php artisan storage:link
+      php-fpm
     envVars:
       - key: APP_ENV
         value: production
       - key: APP_KEY
-        generateValue: true
+        value: base64:i68zd/VPnmcE6K9h8yZVaiZzcRD+HqtpM/8WQIRlWpI=
       - key: APP_DEBUG
         value: false
       - key: APP_URL
