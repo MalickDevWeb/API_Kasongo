@@ -26,8 +26,11 @@ RUN cp .env.production .env
 # Installer dépendances Laravel et générer autoload
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# S'assurer que APP_ENV est production
-RUN sed -i 's/APP_ENV=.*/APP_ENV=production/' .env
+# Générer la clé d'application si elle n'existe pas
+RUN php artisan key:generate --force
+
+# S'assurer que APP_ENV est production et APP_DEBUG est false
+RUN sed -i 's/APP_ENV=.*/APP_ENV=production/' .env && sed -i 's/APP_DEBUG=.*/APP_DEBUG=false/' .env
 
 # Permissions pour Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
