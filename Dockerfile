@@ -20,8 +20,14 @@ WORKDIR /var/www
 # Copier tout le code en une fois
 COPY . .
 
-# Copier le bon fichier .env selon l'environnement
-RUN if [ "$APP_ENV" = "production" ]; then cp .env.production .env; else cp .env.development .env; fi
+# ✅ Utiliser un fallback si le fichier n’existe pas
+RUN if [ "$APP_ENV" = "production" ] && [ -f .env.production ]; then \
+        cp .env.production .env; \
+    elif [ "$APP_ENV" = "development" ] && [ -f .env.development ]; then \
+        cp .env.development .env; \
+    else \
+        cp .env.example .env; \
+    fi
 
 # Installer dépendances Laravel et générer autoload
 RUN composer install --no-interaction --prefer-dist && composer dump-autoload --optimize
