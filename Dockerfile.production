@@ -1,8 +1,8 @@
 # 🐳 Image PHP FPM avec Nginx pour production
 FROM php:8.2-fpm
 
-# Argument d'environnement (défaut = dev)
-ARG APP_ENV=development
+# Argument d'environnement
+ARG APP_ENV=production
 ENV APP_ENV=${APP_ENV}
 
 # Installer dépendances système et extensions PHP
@@ -20,17 +20,11 @@ WORKDIR /var/www
 # Copier tout le code en une fois
 COPY . .
 
-# ✅ Utiliser un fallback si le fichier n’existe pas
-RUN if [ "$APP_ENV" = "production" ] && [ -f .env.production ]; then \
-         cp .env.production .env; \
-    elif [ "$APP_ENV" = "development" ] && [ -f .env.development ]; then \
-         cp .env.development .env; \
-    else \
-         cp .env.example .env; \
-    fi
+# Utiliser .env.production
+RUN cp .env.production .env
 
 # Installer dépendances Laravel et générer autoload
-RUN composer install --no-interaction --prefer-dist && composer dump-autoload --optimize
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Permissions pour Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
