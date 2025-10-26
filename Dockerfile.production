@@ -37,5 +37,5 @@ RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 # Exposer le port 80 pour Nginx
 EXPOSE 80
 
-# Commande pour démarrer PHP-FPM et Nginx
-CMD service nginx start && php-fpm
+# Commande pour démarrer Nginx en premier plan et PHP-FPM en arrière-plan
+CMD php-fpm -D && nginx -g "daemon off;"
